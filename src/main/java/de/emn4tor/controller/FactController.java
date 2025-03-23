@@ -5,6 +5,7 @@ package de.emn4tor.controller;
  *  @created: 23.03.2025
  */
 
+import de.emn4tor.managers.FactHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import de.emn4tor.security.ApiKeyChecker;
+
+import java.io.IOException;
+
+import static de.emn4tor.managers.FactHandler.getFact;
 
 
 @RestController
@@ -41,13 +46,31 @@ public class FactController {
         String keyToValidate = authHeader != null ? authHeader : apiKey;
 
         if (ApiKeyChecker.isValid(keyToValidate)) {
-            return ResponseEntity.ok("{\"fact\": \"This is a " + (type != null ? type : "random") + " fact\"}");
+            if (type == null) {
+                return ResponseEntity.ok("{\"fact\": \"This is a random fact\"}");
+            }
+            if (type != null) {
+                return ResponseEntity.ok("{\"fact\": \"" + getFact(type) + "\"}");
+            }
         } else {
             errorResponse.setMessage("Invalid API Key");
             errorResponse.setCode("API_KEY_INVALID");
             errorResponse.setTimestamp(System.currentTimeMillis());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
+        return null;
+    }
+
+    private String getFact(String type) {
+        String fact = null;
+        try {
+            fact = FactHandler.getFact(type);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return fact;
+
+
     }
 
     // Error response class
