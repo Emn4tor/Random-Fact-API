@@ -44,4 +44,41 @@ public class DatabaseBridge {
         }
 
     }
+
+    public void editUsage(String apiKey, int usage, String type) {
+        if (type.equalsIgnoreCase("add")) {
+            ConfigManager configManager = new ConfigManager();
+            String databaseType = configManager.getConfigEntry("database.type", "sqlite");
+
+            if (databaseType.equalsIgnoreCase("sqlite")) {
+                new SQliteManager().editUsage(apiKey, usage, type);
+            } else {
+                new SQLManager().editUsage(apiKey, usage, type);
+            }
+        } else if (type.equalsIgnoreCase("remove")) {
+            ConfigManager configManager = new ConfigManager();
+            String databaseType = configManager.getConfigEntry("database.type", "sqlite");
+
+            if (databaseType.equalsIgnoreCase("sqlite")) {
+                new SQliteManager().editUsage(apiKey, usage, type);
+            } else {
+                new SQLManager().editUsage(apiKey, usage, type);
+            }
+        } else if (type.equalsIgnoreCase("set")) {
+            ConfigManager configManager = new ConfigManager();
+            String databaseType = configManager.getConfigEntry("database.type", "sqlite");
+
+            if (databaseType.equalsIgnoreCase("sqlite")) {
+                new SQliteManager().editUsage(apiKey, usage, type);
+            } else {
+                new SQLManager().editUsage(apiKey, usage, type);
+            }
+        }
+        else {
+            System.out.println("Invalid type");
+        }
+
+    }
+
+
 }

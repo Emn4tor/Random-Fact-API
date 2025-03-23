@@ -1,9 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Spring Boot Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts API by Emnn4tor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 </head>
 <body>
-<h1>Welcome to Spring Boot!</h1>
+<div class="container">
+    <div class="hero">
+        <h2>Welcome to Facts API</h2>
+        <button id="quick-key-btn" class="btn primary">Generate Quick API Key</button>
+    </div>
+
+    <div id="api-key-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Your New API Key</h2>
+            <p>Keep this key secure. It will only be shown once.</p>
+            <div class="api-key-display">
+                <code id="new-api-key">Generating...</code>
+                <button id="copy-key-btn" class="btn secondary">Copy</button>
+            </div>
+            <button id="close-modal" class="btn primary">Done</button>
+        </div>
+    </div>
+
+    <div class="tutorial">
+        <h3>How to Use the Facts API</h3>
+        <p>Use the API to get random facts or facts from various categories. Here's how you can get started:</p>
+        <pre>
+curl -H "Authorization: YOUR_API_KEY" "http://localhost:8080/api/fact?type=random"
+        </pre>
+        <p>Replace <strong>YOUR_API_KEY</strong> with your generated API key.</p>
+
+        <h4>Available Categories:</h4>
+        <ul>
+            <li><strong>animals</strong> - Random animal facts</li>
+            <li><strong>history</strong> - Random historical facts</li>
+            <li><strong>science</strong> - Random science facts</li>
+            <li><strong>space</strong> - Random space facts</li>
+            <li><strong>technology</strong> - Random technology facts</li>
+            <li><strong>random</strong> - Get a random fact from any category</li>
+        </ul>
+
+        <p>To get facts from a specific category, replace <strong>random</strong> with the desired category:</p>
+        <pre>
+curl -H "Authorization: YOUR_API_KEY" "http://localhost:8080/api/fact?type=animals"
+        </pre>
+        <p>For example, to get a random animal fact, use <strong>type=animals</strong>.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Facts API by Emnn4tor. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Documentation</a>
+            <a href="#">Pricing</a>
+            <a href="#">Support</a>
+        </div>
+    </footer>
+</div>
+
+<script src="/js/main.js"></script>
 </body>
 </html>

@@ -17,8 +17,14 @@ public class TestMethods {
         System.out.println("TestMethods deleteUser");
     }
 
-    public void NewAPIKey() {
-        String apiKey = generateApiKey();
+    Integer noAccount = 10;
+    Integer standard = 1000;
+    Integer Premium = 1000000;
+    Integer Eneterprise = 1000000000;
+
+
+    public void NewAPIKey(Integer userID, Integer maxUsage) {
+        String apiKey = generateApiKey(userID, maxUsage);
         System.out.println(apiKey);
 
     }

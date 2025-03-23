@@ -11,9 +11,10 @@ import java.sql.*;
 
 
 public class SQliteManager {
-    String databaseName = "datanase";
-
     private ConfigManager configManager = new ConfigManager();
+
+    String databaseName = configManager.getConfigEntry("database.database", "database");
+
 
     public void init() {
         System.out.println("SQliteManager initialized");
@@ -27,24 +28,42 @@ public class SQliteManager {
 
     private void createAPIandUserTables() {
         String url = "jdbc:sqlite:" + databaseName + ".db";
+
+        // Correct SQL statement for creating the table
         String sql = "CREATE TABLE IF NOT EXISTS api_keys (\n"
-                + "	id integer PRIMARY KEY,\n"
-                + "	api_key text NOT NULL\n"
-                + "user_id integer NOT NULL\n"
-                + "usage integer NOT NULL\n"
+                + "id integer PRIMARY KEY,\n"
+                + "api_key text NOT NULL,\n"  // Comma added here
+                + "user_id integer NOT NULL,\n" // Comma added here
+                + "usage integer NOT NULL,\n"   // Comma added here
                 + "max_usage integer NOT NULL\n"
                 + ");";
 
+        try (Connection connection = DriverManager.getConnection(url);
+             Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void newAPIKey(String apiKey, int userId, int maxUsage) {
-        String databaseName = configManager.getConfigEntry("database.database", "database");
         String url = "jdbc:sqlite:" + databaseName + ".db";
-        String sql = "INSERT INTO api_keys(api_key, user_id, usage, max_usage) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO api_keys(user_id, api_key, usage, max_usage) VALUES(?,?,?,?)";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            statement.setString(2, apiKey);
+            statement.setInt(3, 0);
+            statement.setInt(4, maxUsage);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isAPIKeyValidandUsable(String apiKey) {
-        String databaseName = configManager.getConfigEntry("database.database", "database");
         String url = "jdbc:sqlite:" + databaseName + ".db";
         String sql = "SELECT usage, max_usage FROM api_keys WHERE api_key = ?";
 
@@ -68,5 +87,28 @@ public class SQliteManager {
             return false;
         }
 
+    }
+
+    public void editUsage(String apiKey, int usage, String type) {
+        String url = "jdbc:sqlite:" + databaseName + ".db";
+        String sql = "UPDATE api_keys SET usage = ? WHERE api_key = ?";
+
+        if (type.equalsIgnoreCase("add")) {
+            sql = "UPDATE api_keys SET usage = usage - ? WHERE api_key = ?";
+        } else if (type.equalsIgnoreCase("remove")) {
+            sql = "UPDATE api_keys SET usage = usage + ? WHERE api_key = ?";
+        } else if (type.equalsIgnoreCase("set")) {
+            sql = "UPDATE api_keys SET usage = ? WHERE api_key = ?";
+        }
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, usage);
+            statement.setString(2, apiKey);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

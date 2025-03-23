@@ -5,7 +5,8 @@ package de.emn4tor.controller;
  *  @created: 23.03.2025
  */
 
-import de.emn4tor.managers.FactHandler;
+import de.emn4tor.managers.database.DatabaseBridge;
+import de.emn4tor.service.FactService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import de.emn4tor.security.ApiKeyChecker;
 
 import java.io.IOException;
-
-import static de.emn4tor.managers.FactHandler.getFact;
 
 
 @RestController
@@ -36,18 +35,19 @@ public class FactController {
 
         // Use either header or query parameter for API key
         if (authHeader == null && apiKey == null) {
-            errorResponse.setMessage("This service requires an API key! Get yours on idkyet.com");
+            errorResponse.setMessage("This service requires an API key! Normally you find it on localhost:8080");
             errorResponse.setCode("API_KEY_MISSING");
             errorResponse.setTimestamp(System.currentTimeMillis());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
 
-        // Determine which key to validate
         String keyToValidate = authHeader != null ? authHeader : apiKey;
 
         if (ApiKeyChecker.isValid(keyToValidate)) {
+            new DatabaseBridge().editUsage(keyToValidate, 1, "remove");
+
             if (type == null) {
-                return ResponseEntity.ok("{\"fact\": \"This is a random fact\"}");
+                return ResponseEntity.ok("{\"fact\": \"" + getFact("random") + "\"}");
             }
             if (type != null) {
                 return ResponseEntity.ok("{\"fact\": \"" + getFact(type) + "\"}");
@@ -64,7 +64,7 @@ public class FactController {
     private String getFact(String type) {
         String fact = null;
         try {
-            fact = FactHandler.getFact(type);
+            fact = FactService.getFact(type);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - 404</title>
+    <title>Access Denied - 403</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,13 +45,14 @@
             margin-top: 50px;
             font-size: 14px;
             color: #777;
-        }    </style>
+        }
+    </style>
 </head>
 <body>
-<h1>404 - Page Not Found!</h1>
-<p>Sorry, but the page you are looking for does not exist or has been moved.</p>
+<h1>403 - Forbidden</h1>
+<p>You do not have permission to access this resource.</p>
 
-<p>You can go back to the <a href="/">home page</a> or try searching for what you need.</p>
+<p>You can go back to the <a href="/">home page</a> or contact the administrator if you believe this is an error.</p>
 
 <div id="infos">
     <p><span class="info-label">Timestamp:</span> <span id="timestamp"></span></p>
@@ -62,7 +63,6 @@
     <p><span class="info-label">Browser Language:</span> <span id="language"></span></p>
     <p><span class="info-label">Screen Resolution:</span> <span id="screen-resolution"></span></p>
     <p><span class="info-label">Viewport Size:</span> <span id="viewport-size"></span></p>
-
 </div>
 
 <footer>
@@ -73,7 +73,8 @@
     setInterval(function() {
         document.getElementById("timestamp").innerText = new Date().toISOString();
         document.getElementById("viewport-size").innerText = window.innerWidth + "x" + window.innerHeight;
-        }, 1000);
+    }, 1000);
+
     document.getElementById("timestamp").innerText = new Date().toISOString();
     document.getElementById("path").innerText = window.location.pathname;
     document.getElementById("full-url").innerText = window.location.href;

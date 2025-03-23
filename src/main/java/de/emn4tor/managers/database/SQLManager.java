@@ -18,4 +18,8 @@ public class SQLManager {
         System.out.println("SQLManager isAPIKeyValidandUsable");
         return true;
     }
+
+    public void editUsage(String apiKey, int usage, String type) {
+        System.out.println("SQLManager editUsage");
+    }
 }
