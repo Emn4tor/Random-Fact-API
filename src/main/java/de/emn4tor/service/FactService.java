@@ -6,4 +6,9 @@ package de.emn4tor.service;
  */
 
 public class FactService {
+
+    public String getFact() {
+        return "This is a random fact";
+    }
 }
+

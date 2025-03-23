@@ -1,1 +1,88 @@
-not found
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - 404</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #e74c3c;
+            font-size: 48px;
+            margin-top: 50px;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #infos {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .info-label {
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #777;
+        }    </style>
+</head>
+<body>
+<h1>Oops! Page Not Found!</h1>
+<p>Sorry, but the page you are looking for does not exist or has been moved.</p>
+
+<p>You can go back to the <a href="/">home page</a> or try searching for what you need.</p>
+
+<div id="infos">
+    <p><span class="info-label">Timestamp:</span> <span id="timestamp"></span></p>
+    <p><span class="info-label">Requested Path:</span> <span id="path"></span></p>
+    <p><span class="info-label">Full URL:</span> <span id="full-url"></span></p>
+    <p><span class="info-label">Referrer:</span> <span id="referrer"></span></p>
+    <p><span class="info-label">User Agent:</span> <span id="user-agent"></span></p>
+    <p><span class="info-label">Browser Language:</span> <span id="language"></span></p>
+    <p><span class="info-label">Screen Resolution:</span> <span id="screen-resolution"></span></p>
+    <p><span class="info-label">Viewport Size:</span> <span id="viewport-size"></span></p>
+
+</div>
+
+<footer>
+    <p>&copy; 2025 Your Website. All Rights Reserved.</p>
+</footer>
+
+<script>
+    //every 1000ms, update the timestamp
+    setInterval(function() {
+        document.getElementById("timestamp").innerText = new Date().toISOString();
+        document.getElementById("viewport-size").innerText = window.innerWidth + "x" + window.innerHeight;
+        }, 1000);
+    document.getElementById("timestamp").innerText = new Date().toISOString();
+    document.getElementById("path").innerText = window.location.pathname;
+    document.getElementById("full-url").innerText = window.location.href;
+    document.getElementById("referrer").innerText = document.referrer || 'N/A';
+    document.getElementById("user-agent").innerText = navigator.userAgent;
+    document.getElementById("language").innerText = navigator.language;
+    document.getElementById("screen-resolution").innerText = screen.width + "x" + screen.height;
+    document.getElementById("viewport-size").innerText = window.innerWidth + "x" + window.innerHeight;
+</script>
+</body>
+</html>

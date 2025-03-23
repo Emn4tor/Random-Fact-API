@@ -5,14 +5,11 @@ package de.emn4tor.managers;
  *  @created: 23.03.2025
  */
 
-import de.emn4tor.managers.database.DatabaseBridge;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
 
 
 public class ConfigManager {

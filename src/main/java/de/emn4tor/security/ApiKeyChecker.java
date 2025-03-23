@@ -6,4 +6,16 @@ package de.emn4tor.security;
  */
 
 public class ApiKeyChecker {
+
+    public static boolean isValid(String apiKey) {
+        if (apiKey == null) {
+            return false;
+        }
+        else if (apiKey.equals("123456")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
